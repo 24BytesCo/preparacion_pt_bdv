@@ -1,19 +1,18 @@
 using Microsoft.AspNetCore.Identity;
 using preparacion_pt_bdv.Data;
+using preparacion_pt_bdv.Middleware;
 using preparacion_pt_bdv.models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
+// Agrega los servicios al contenedor de inyección de dependencias.
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Usamos un scope para obtener los servicios necesarios para la inicialización
+// Bloque para inicializar datos en la base de datos al arrancar.
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
@@ -23,7 +22,7 @@ using (var scope = app.Services.CreateScope())
         var usuarioManager = services.GetRequiredService<UserManager<Usuario>>();
         var configuration = services.GetRequiredService<IConfiguration>();
         
-        // Llamamos al método de inicialización pasando la configuración
+        // Ejecuta la siembra de datos.
         await LoadDatabase.InsertarData(context, usuarioManager, configuration);
     }
     catch (Exception ex)
@@ -33,18 +32,18 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-// Configure the HTTP request pipeline.
+// Configura el pipeline de peticiones HTTP.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-// Habilito la autenticación
-app.UseAuthentication();
+// Registra el middleware para manejo centralizado de excepciones.
+app.UseMiddleware<ManagerMiddleware>();
 
-//Comento esta línea para no forzar HTTPS en desarrollo
-// app.UseHttpsRedirection();
+// Habilita la autenticación en la aplicación.
+app.UseAuthentication();
 
 app.UseAuthorization();
 

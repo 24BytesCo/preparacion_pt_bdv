@@ -1,19 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 
 namespace preparacion_pt_bdv.models
 {
+    // Extiende la clase base de Identity para añadir propiedades personalizadas.
     public class Usuario : IdentityUser
     {
-
         public string? Nombre { get; set; }
         public string? Apellido { get; set; }
         public string? Telefono { get; set; }
 
-        //Nombre completo
+        // Propiedad calculada que retorna el nombre y apellido concatenados.
         public string NombreCompleto
         {
             get
@@ -21,6 +17,5 @@ namespace preparacion_pt_bdv.models
                 return $"{Nombre} {Apellido}";
             }
         }
-
     }
 }

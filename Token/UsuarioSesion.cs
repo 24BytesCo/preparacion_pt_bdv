@@ -1,11 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace preparacion_pt_bdv.Token
 {
+    // Implementa la lógica para obtener la sesión del usuario a partir del contexto HTTP.
     public class UsuarioSesion : IUsuarioSesion
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
@@ -15,8 +12,10 @@ namespace preparacion_pt_bdv.Token
             _httpContextAccessor = httpContextAccessor;
         }
 
+        // Obtiene el nombre de usuario (o ID) del token JWT del usuario autenticado.
         public string? ObtenerUsuarioSesion()
         {
+            // Accede a los claims del usuario y busca el identificador de nombre.
             return _httpContextAccessor.HttpContext!.User?.Claims?
                 .FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
         }
