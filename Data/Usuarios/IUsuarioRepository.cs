@@ -10,7 +10,7 @@ namespace preparacion_pt_bdv.Data.Usuarios
     {
         Task<UsuarioResponseDto?> GetUsuario();
         Task<UsuarioResponseDto?> RegistrarUsuario(UsuarioRegistroRequestDto usuarioRegistro);
-        Task<UsuarioResponseDto?> LoginUsuario(UsuarioLoginRequestDto usuarioLogin);
+        Task<UsuarioResponseDto> Login(UsuarioLoginRequestDto usuarioLogin);
         bool SaveChanges();
     }
 }
