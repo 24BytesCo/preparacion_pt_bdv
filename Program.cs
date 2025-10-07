@@ -16,7 +16,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// Habilito la autenticación
+app.UseAuthentication();
+
+//Comento esta línea para no forzar HTTPS en desarrollo
+// app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
