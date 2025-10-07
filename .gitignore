@@ -1,0 +1,42 @@
+# Dependencias y paquetes de NuGet
+[Pp]ackages/
+*.nupkg
+*.nuget.props
+*.nuget.targets
+
+# Archivos de compilación y temporales
+[Bb]in/
+[Oo]bj/
+[Tt]est[Rr]esults/
+
+# Archivos de configuración de usuario y temporales de Visual Studio
+*.user
+*.userosscache
+*.suo
+.vs/
+*.sln.docstates
+
+# Archivos de publicación
+[Rr]elease/
+[Dd]ebug/
+x64/
+x86/
+build/
+Build/
+bld/
+[Bb]uild/
+
+# Archivos de sistema operativo
+Thumbs.db
+ehthumbs.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
+
+# Archivos de credenciales y configuración local
+appsettings.Development.json
+secrets.json
+*.env
+
+# Herramientas de .NET
+.store/
+.tool-manifest/
