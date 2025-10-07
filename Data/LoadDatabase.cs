@@ -25,7 +25,6 @@ namespace preparacion_pt_bdv.Data
             // Se ejecuta solo si no hay ningún usuario en la base de datos.
             if (!context.Users.Any())
             {
-                // Crea un objeto para almacenar la configuración del usuario inicial.
                 var initialUserConfig = new InitialUserData();
 
                 // Lee la sección "InitialUserData" de appsettings.json y user-secrets, y mapea los valores a las propiedades del objeto.
@@ -37,7 +36,6 @@ namespace preparacion_pt_bdv.Data
                     throw new InvalidOperationException("Los datos para el usuario inicial no se encontraron en la configuración. Asegúrate de configurar 'InitialUserData' en appsettings.json y los User Secrets.");
                 }
 
-                // Crea la nueva instancia del usuario con los datos cargados.
                 var usuario = new Usuario
                 {
                     UserName = initialUserConfig.UserName,
@@ -47,7 +45,6 @@ namespace preparacion_pt_bdv.Data
                     Telefono = initialUserConfig.Telefono
                 };
 
-                // Usa el UserManager para crear el usuario en la base de datos con la contraseña obtenida de forma segura.
                 await usuarioManager.CreateAsync(usuario, initialUserConfig.Password);
 
                 context.SaveChanges();
