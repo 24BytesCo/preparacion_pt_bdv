@@ -23,6 +23,13 @@ namespace preparacion_pt_bdv.models
 
         public string? ImagenUrl { get; set; }
 
+        public Guid? UsuarioCreaId { get; set; }
+        public Guid? UsuarioModificaId { get; set; }
+        public Guid? UsuarioEliminaId { get; set; }
         public DateTime? FechaCreacion { get; set; }
+        public DateTime? FechaModificacion { get; set; }
+        public DateTime? FechaEliminacion { get; set; }
+        public bool Activo { get; set; } = true;
+
     }
 }
