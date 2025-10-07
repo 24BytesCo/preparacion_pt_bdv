@@ -1,31 +1,26 @@
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
+using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using preparacion_pt_bdv.models;
 
 namespace preparacion_pt_bdv.Token
 {
+    // Implementa la generación de JSON Web Tokens (JWT).
     public class JwtGenerador : IJwtGenerador
     {
-
-        //Inyección de la configuración de la aplicación
         private readonly IConfiguration _configuration;
 
-        /**
-        * @brief Constructor que inyecta la configuración de la aplicación.
-        * @param configuration El servicio de configuración para acceder a appsettings y User Secrets.
-        */
+        // Inyecta la configuración para acceder a la clave secreta del JWT.
         public JwtGenerador(IConfiguration configuration)
         {
             _configuration = configuration;
         }
+
+        // Crea un token JWT para un usuario específico.
         public string CrearToken(Usuario usuario)
         {
-            //Lista de claims que se incluirán en el token
+            // Define los claims que contendrá el token.
             var claims = new List<Claim>
             {
                 new(JwtRegisteredClaimNames.NameId, usuario.UserName!),
@@ -33,12 +28,13 @@ namespace preparacion_pt_bdv.Token
                 new("userId", usuario.Id)
             };
 
-            //Clave secreta para firmar el token (debe ser segura y almacenada de forma segura)
-            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!));
+            // Obtiene la clave secreta desde la configuración segura.
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!));
 
-            //Credenciales de firma utilizando el algoritmo HMAC SHA256
+            // Crea las credenciales de firma con el algoritmo de seguridad.
             var credenciales = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
+            // Describe el token, incluyendo claims, expiración y credenciales.
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
@@ -46,11 +42,10 @@ namespace preparacion_pt_bdv.Token
                 SigningCredentials = credenciales
             };
 
-            //Genera el token JWT
-            var token = new JwtSecurityTokenHandler().CreateJwtSecurityToken(tokenDescriptor);
-
-            //Retorna el token como una cadena
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            // Genera y escribe el token en formato de cadena.
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
         }
     }
 }

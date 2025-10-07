@@ -1,10 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace preparacion_pt_bdv.Dtos.UsuariosDtos
 {
+    // DTO para la solicitud de registro de un nuevo usuario.
     public class UsuarioRegistroRequestDto
     {
         public string? UserName { get; set; }
